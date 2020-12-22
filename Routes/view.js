@@ -11,6 +11,10 @@ router.get('/stats', (req, res) => {
 });
 
 router.get('*', (req, res) => {
+  // console.log("Indexhtml")
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
+
+
+
 module.exports = router;

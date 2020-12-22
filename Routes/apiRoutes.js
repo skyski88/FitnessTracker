@@ -9,8 +9,10 @@ const {
 } = require('mongoose');
 
 router.get('/api/workouts', (req, res) => {
+  console.log("Get")
   workout.find({})
     .then(dbWorkouts => {
+      console.log("Find",dbWorkouts)
       res.json(dbWorkouts);
     })
     .catch(err => {
@@ -20,8 +22,10 @@ router.get('/api/workouts', (req, res) => {
 
 
 router.post('/api/workouts', (req, res) => {
+  console.log("Post")
   workout.create(req.body)
     .then(dbWorkout => {
+      console.log("Post",dbWorkout)
       res.json(dbWorkout);
     })
     .catch(err => {
@@ -30,14 +34,15 @@ router.post('/api/workouts', (req, res) => {
 });
 
 router.put('/api/workouts/:id', (req, res) => {
-  workout.updateOne({
-      "_id": ObjectId(req.params.id)
-    }, {
-      $push: {
-        'exercises': req.body
-      }
-    })
+  console.log("PUT")
+  workout.findByIdAndUpdate(
+       ObjectId(req.params.id)
+    ,
+     { $push: {'exercises': req.body}}
+     ,{new:true}
+    )
     .then(update => {
+      console.log("Update",update)
       res.json(update);
     })
     .catch(err => {
